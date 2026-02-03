@@ -105,7 +105,7 @@ const PricingSection = () => {
     {
       id: "pro",
       plan: "Pro",
-      price: 12,
+      price: 10,
       features: [
         "Unlimited projects",
         "Unlimited exports",
@@ -115,7 +115,7 @@ const PricingSection = () => {
         "AI Retouch, Upscaler and more",
       ],
       featured: true,
-      planId: "cplan_2ywZwXjYQQipWYxjCmFZCgCgsTZ",
+      planId: "cplan_394zYsTiYku4BEsNKk5ZqLDUy2s",
       buttonText: "Upgrade to Pro",
     },
   ];

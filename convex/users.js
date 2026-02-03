@@ -5,22 +5,31 @@ export const store = mutation({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
+    console.log("IDENTITY FROM CLERK:", identity);
+
     if (!identity) {
       throw new Error("Called storeUser without authentication present");
+    }
+
+    if (!identity.email) {
+      throw new Error("Email is required for user registration");
     }
 
     // Check if we've already stored this identity before
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
-      .unique();
+      .first();
 
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
       if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+        await ctx.db.patch(user._id, {
+          name: identity.name ?? user.name,
+          lastActiveAt: Date.now(),
+        });
       }
       return user._id;
     }
@@ -43,6 +52,8 @@ export const store = mutation({
 export const getCurrentUser = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
+    console.log("IDENTITY FROM CLERK:", identity);
+
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -50,7 +61,7 @@ export const getCurrentUser = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
 

@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export default function ProjectCard({ project, onEdit }) {
   const { mutate: deleteProject, isLoading } = useConvexMutation(
-    api.projects.deleteProject
+    api.projects.deleteProject,
   );
 
   const lastUpdated = formatDistanceToNow(new Date(project.updatedAt), {
@@ -18,7 +18,7 @@ export default function ProjectCard({ project, onEdit }) {
 
   const handleDelete = async () => {
     const confirmed = confirm(
-      `Are you sure you want to delete "${project.title}"? This action cannot be undone.`
+      `Are you sure you want to delete "${project.title}"? This action cannot be undone.`,
     );
 
     if (confirmed) {
@@ -33,9 +33,9 @@ export default function ProjectCard({ project, onEdit }) {
   };
 
   return (
-    <Card className="py-0 group relative bg-slate-800/50 overflow-hidden hover:border-white/20 transition-all hover:transform hover:scale-[1.02]">
+    <Card className="py-0 group relative bg-white/50 overflow-hidden hover:border-gray-300 transition-all hover:transform hover:scale-[1.02]">
       {/* Thumbnail */}
-      <div className="aspect-video bg-slate-700 relative overflow-hidden">
+      <div className="aspect-video bg-gray-200 relative overflow-hidden">
         {project.thumbnailUrl && (
           <img
             src={project.thumbnailUrl}
@@ -65,15 +65,15 @@ export default function ProjectCard({ project, onEdit }) {
 
       {/* Project Info */}
       <CardContent className="pb-6">
-        <h3 className="font-semibold text-white mb-1 truncate">
+        <h3 className="font-semibold text-black mb-1 truncate">
           {project.title}
         </h3>
 
-        <div className="flex items-center justify-between text-sm text-white/70">
+        <div className="flex items-center justify-between text-sm text-gray-700">
           <span>Updated {lastUpdated}</span>
           <Badge
             variant="secondary"
-            className="text-xs bg-slate-700 text-white/70"
+            className="text-xs bg-gray-200 text-gray-700"
           >
             {project.width} × {project.height}
           </Badge>

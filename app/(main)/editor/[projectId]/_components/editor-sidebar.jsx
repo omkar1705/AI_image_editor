@@ -69,16 +69,16 @@ export function EditorSidebar({ project }) {
   const Icon = toolConfig.icon;
 
   return (
-    <div className="min-w-96 border-r flex flex-col">
+    <div className="min-w-96 border-r border-white/10 flex flex-col bg-slate-900">
       {/* Sidebar Header */}
-      <div className="p-4 border-b">
+      <div className="p-4 border-b border-white/10">
         <div className="flex items-center gap-3">
           <Icon className="h-5 w-5 text-white" />
           <h2 className="text-lg font-semibold text-white">
             {toolConfig.title}
           </h2>
         </div>
-        <p className="text-sm text-white mt-1">{toolConfig.description}</p>
+        <p className="text-sm text-white/70 mt-1">{toolConfig.description}</p>
       </div>
 
       {/* Sidebar Content */}
@@ -106,6 +106,6 @@ function renderToolContent(activeTool, project) {
     case "ai_edit":
       return <AIEdit project={project} />;
     default:
-      return <div className="text-white">Select a tool to get started</div>;
+      return <div className="text-white/70">Select a tool to get started</div>;
   }
 }

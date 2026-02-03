@@ -8,6 +8,7 @@ import { useCanvas } from "@/context/context";
 import { FabricImage } from "fabric";
 import { useConvexMutation } from "@/hooks/use-convex-query";
 import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
 
 const DIRECTIONS = [
   { key: "top", label: "Top", icon: ArrowUp },
@@ -88,6 +89,59 @@ export function AIExtenderControls({ project }) {
     setSelectedDirection((prev) => (prev === direction ? null : direction));
   };
 
+  // Helper function to load image with retry logic
+  // ImageKit AI transformations (like bg-genfill) may take time to process
+  const loadImageWithRetry = async (url, maxRetries = 3) => {
+    let lastError;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // Load the image with fabric
+        const image = await Promise.race([
+          FabricImage.fromURL(url, {
+            crossOrigin: "anonymous",
+          }),
+          // Add a timeout to prevent hanging indefinitely
+          new Promise((_, reject) =>
+            setTimeout(
+              () => reject(new Error("Image load timeout")),
+              30000 // 30 second timeout
+            )
+          ),
+        ]);
+        
+        if (image && image.width > 0 && image.height > 0) {
+          return image;
+        }
+        
+        throw new Error("Image loaded but has invalid dimensions");
+      } catch (error) {
+        lastError = error;
+        const isLastAttempt = attempt === maxRetries;
+        
+        console.warn(
+          `Image load attempt ${attempt}/${maxRetries} failed:`,
+          error.message || error
+        );
+        
+        if (!isLastAttempt) {
+          // Wait before retrying, with exponential backoff
+          // AI transformations may need more time on first attempt
+          const waitTime = attempt === 1 ? 3000 : 2000 * attempt;
+          setProcessingMessage(
+            `Extending image with AI... (attempt ${attempt + 1}/${maxRetries})`
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+        }
+      }
+    }
+    
+    throw (
+      lastError ||
+      new Error("Failed to load image after multiple attempts")
+    );
+  };
+
   const applyExtension = async () => {
     const mainImage = getMainImage();
     if (!mainImage || !selectedDirection) return;
@@ -96,11 +150,15 @@ export function AIExtenderControls({ project }) {
 
     try {
       const currentImageUrl = getImageSrc(mainImage);
-      const extendedUrl = buildExtensionUrl(currentImageUrl);
+      if (!currentImageUrl) {
+        throw new Error("Could not get current image URL");
+      }
 
-      const extendedImage = await FabricImage.fromURL(extendedUrl, {
-        crossOrigin: "anonymous",
-      });
+      const extendedUrl = buildExtensionUrl(currentImageUrl);
+      console.log("Loading extended image from:", extendedUrl);
+
+      // Load image with retry logic
+      const extendedImage = await loadImageWithRetry(extendedUrl, 3);
 
       // Scale to fit canvas
       const scale = Math.min(
@@ -136,7 +194,12 @@ export function AIExtenderControls({ project }) {
       setSelectedDirection(null);
     } catch (error) {
       console.error("Error applying extension:", error);
-      alert("Failed to extend image. Please try again.");
+      const errorMessage = error.message || "Failed to extend image";
+      toast.error(`Failed to extend image: ${errorMessage}`, {
+        description:
+          "This might be due to ImageKit transformation taking longer than expected, network issues, or invalid image URL. Please try again in a moment.",
+        duration: 6000,
+      });
     } finally {
       setProcessingMessage(null);
     }

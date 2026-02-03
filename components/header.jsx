@@ -27,8 +27,8 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="mr-10 md:mr-20">
           <Image
-            src="/logo-text.png"
-            alt="Pixxel Logo"
+            src="/logo.png"
+            alt="Imagenator Logo"
             className="min-w-24 object-cover"
             width={96}
             height={24}

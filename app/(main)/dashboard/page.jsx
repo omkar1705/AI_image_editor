@@ -13,7 +13,7 @@ export default function DashboardPage() {
 
   // Get user's projects
   const { data: projects, isLoading } = useConvexQuery(
-    api.projects.getUserProjects
+    api.projects.getUserProjects,
   );
 
   return (
@@ -44,7 +44,7 @@ export default function DashboardPage() {
         {/* Projects Content */}
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
           </div>
         ) : projects && projects.length > 0 ? (
           <ProjectGrid projects={projects} />
@@ -66,7 +66,7 @@ export default function DashboardPage() {
 function EmptyState({ onCreateProject }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-6">
+      <div className="w-24 h-24 rounded-full bg--gradient-to-r from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-6">
         <Image className="h-12 w-12 text-cyan-400" />
       </div>
 

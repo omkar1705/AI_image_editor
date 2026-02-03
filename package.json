@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.22.0",
+    "@clerk/nextjs": "^6.36.10",
     "@clerk/themes": "^2.2.51",
     "@imagekit/next": "^2.1.2",
     "@radix-ui/react-dialog": "^1.1.14",

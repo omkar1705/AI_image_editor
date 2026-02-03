@@ -110,7 +110,7 @@ export function NewProjectModal({ isOpen, onClose }) {
     } catch (error) {
       console.error("Error creating project:", error);
       toast.error(
-        error.message || "Failed to create project. Please try again."
+        error.message || "Failed to create project. Please try again.",
       );
     } finally {
       setIsUploading(false);
@@ -129,17 +129,17 @@ export function NewProjectModal({ isOpen, onClose }) {
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-2xl bg-slate-800 border-white/10">
+        <DialogContent className="max-w-2xl bg-white border-gray-200">
           <DialogHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <DialogTitle className="text-2xl font-bold text-white">
+                <DialogTitle className="text-2xl font-bold text-black">
                   Create New Project
                 </DialogTitle>
                 {isFree && (
                   <Badge
                     variant="secondary"
-                    className="bg-slate-700 text-white/70"
+                    className="bg-gray-200 text-gray-700"
                   >
                     {currentProjectCount}/3 projects
                   </Badge>
@@ -151,17 +151,17 @@ export function NewProjectModal({ isOpen, onClose }) {
           <div className="space-y-6">
             {/* Project Limit Warning for Free Users */}
             {isFree && currentProjectCount >= 2 && (
-              <Alert className="bg-amber-500/10 border-amber-500/20">
-                <Crown className="h-5 w-5 text-amber-400" />
-                <AlertDescription className="text-amber-300/80">
-                  <div className="font-semibold text-amber-400 mb-1">
+              <Alert className="bg-gray-100 border-gray-200">
+                <Crown className="h-5 w-5 text-gray-600" />
+                <AlertDescription className="text-gray-700">
+                  <div className="font-semibold text-gray-800 mb-1">
                     {currentProjectCount === 2
                       ? "Last Free Project"
                       : "Project Limit Reached"}
                   </div>
                   {currentProjectCount === 2
-                    ? "This will be your last free project. Upgrade to Pixxel Pro for unlimited projects."
-                    : "Free plan is limited to 3 projects. Upgrade to Pixxel Pro to create more projects."}
+                    ? "This will be your last free project. Upgrade to Imagenator Pro for unlimited projects."
+                    : "Free plan is limited to 3 projects. Upgrade to Imagenator Pro to create more projects."}
                 </AlertDescription>
               </Alert>
             )}
@@ -172,21 +172,21 @@ export function NewProjectModal({ isOpen, onClose }) {
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all ${
                   isDragActive
-                    ? "border-cyan-400 bg-cyan-400/5"
-                    : "border-white/20 hover:border-white/40"
+                    ? "border-black bg-black/5"
+                    : "border-gray-300 hover:border-gray-400"
                 } ${!canCreate ? "opacity-50 pointer-events-none" : ""}`}
               >
                 <input {...getInputProps()} />
-                <Upload className="h-12 w-12 text-white/50 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <Upload className="h-12 w-12 text-gray-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-black mb-2">
                   {isDragActive ? "Drop your image here" : "Upload an Image"}
                 </h3>
-                <p className="text-white/70 mb-4">
+                <p className="text-gray-700 mb-4">
                   {canCreate
                     ? "Drag and drop your image, or click to browse"
                     : "Upgrade to Pro to create more projects"}
                 </p>
-                <p className="text-sm text-white/50">
+                <p className="text-sm text-gray-500">
                   Supports PNG, JPG, WEBP up to 20MB
                 </p>
               </div>
@@ -197,7 +197,7 @@ export function NewProjectModal({ isOpen, onClose }) {
                   <img
                     src={previewUrl}
                     alt="Preview"
-                    className="w-full h-64 object-cover rounded-xl border border-white/10"
+                    className="w-full h-64 object-cover rounded-xl border border-gray-200"
                   />
                   <Button
                     variant="ghost"
@@ -215,7 +215,7 @@ export function NewProjectModal({ isOpen, onClose }) {
 
                 {/* Project Title Input */}
                 <div className="space-y-2">
-                  <Label htmlFor="project-title" className="text-white">
+                  <Label htmlFor="project-title" className="text-black">
                     Project Title
                   </Label>
                   <Input
@@ -224,19 +224,19 @@ export function NewProjectModal({ isOpen, onClose }) {
                     value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
                     placeholder="Enter project name..."
-                    className="bg-slate-700 border-white/20 text-white placeholder-white/50 focus:border-cyan-400 focus:ring-cyan-400"
+                    className="bg-gray-100 border-gray-300 text-black placeholder-gray-500 focus:border-black focus:ring-black"
                   />
                 </div>
 
                 {/* File Details */}
-                <div className="bg-slate-700/50 rounded-lg p-4">
+                <div className="bg-gray-100 rounded-lg p-4">
                   <div className="flex items-center gap-3">
-                    <ImageIcon className="h-5 w-5 text-cyan-400" />
+                    <ImageIcon className="h-5 w-5 text-black" />
                     <div>
-                      <p className="text-white font-medium">
+                      <p className="text-black font-medium">
                         {selectedFile.name}
                       </p>
-                      <p className="text-white/70 text-sm">
+                      <p className="text-gray-700 text-sm">
                         {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                       </p>
                     </div>
@@ -251,7 +251,7 @@ export function NewProjectModal({ isOpen, onClose }) {
               variant="ghost"
               onClick={handleClose}
               disabled={isUploading}
-              className="text-white/70 hover:text-white"
+              className="text-gray-700 hover:text-black"
             >
               Cancel
             </Button>

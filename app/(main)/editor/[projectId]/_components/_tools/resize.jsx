@@ -234,8 +234,8 @@ export function ResizeControls({ project }) {
                 onClick={() => applyAspectRatio(aspectRatio)}
                 className={`justify-between h-auto py-2 ${
                   selectedPreset === aspectRatio.name
-                    ? "bg-cyan-500 hover:bg-cyan-600"
-                    : "text-left"
+                    ? "bg-cyan-500 hover:bg-cyan-600 text-white"
+                    : "text-left text-white border-white/20 hover:bg-white/10 hover:border-white/40"
                 }`}
               >
                 <div>

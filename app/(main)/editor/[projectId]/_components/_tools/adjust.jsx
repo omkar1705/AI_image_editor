@@ -113,7 +113,7 @@ export function AdjustControls() {
           filtersToApply.push(
             new config.filterClass({
               [config.valueKey]: transformedValue,
-            })
+            }),
           );
         }
       });
@@ -153,13 +153,13 @@ export function AdjustControls() {
 
     imageObject.filters.forEach((filter) => {
       const config = FILTER_CONFIGS.find(
-        (c) => c.filterClass.name === filter.constructor.name
+        (c) => c.filterClass.name === filter.constructor.name,
       );
       if (config) {
         const filterValue = filter[config.valueKey];
         if (config.key === "hue") {
           extractedValues[config.key] = Math.round(
-            filterValue * (180 / Math.PI)
+            filterValue * (180 / Math.PI),
           );
         } else {
           extractedValues[config.key] = Math.round(filterValue * 100);
@@ -203,12 +203,12 @@ export function AdjustControls() {
     <div className="space-y-6">
       {/* Reset Button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-sm font-medium text-white">Image Adjustments</h3>
+        <h3 className="text-sm font-medium text-black">Image Adjustments</h3>
         <Button
           variant="ghost"
           size="sm"
           onClick={resetFilters}
-          className="text-white/70 hover:text-white"
+          className="text-gray-700 hover:text-black"
         >
           <RotateCcw className="h-4 w-4 mr-2" />
           Reset
@@ -219,8 +219,8 @@ export function AdjustControls() {
       {FILTER_CONFIGS.map((config) => (
         <div key={config.key} className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-sm text-white">{config.label}</label>
-            <span className="text-xs text-white/70">
+            <label className="text-sm text-black">{config.label}</label>
+            <span className="text-xs text-gray-700">
               {filterValues[config.key]}
               {config.suffix || ""}
             </span>
@@ -237,8 +237,8 @@ export function AdjustControls() {
       ))}
 
       {/* Info */}
-      <div className="mt-6 p-3 bg-slate-700/50 rounded-lg">
-        <p className="text-xs text-white/70">
+      <div className="mt-6 p-3 bg-gray-100 rounded-lg">
+        <p className="text-xs text-gray-700">
           Adjustments are applied in real-time. Use the Reset button to restore
           original values.
         </p>
@@ -247,8 +247,8 @@ export function AdjustControls() {
       {/* Processing Indicator */}
       {isApplying && (
         <div className="flex items-center justify-center py-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-cyan-400"></div>
-          <span className="ml-2 text-xs text-white/70">
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
+          <span className="ml-2 text-xs text-gray-700">
             Applying filters...
           </span>
         </div>

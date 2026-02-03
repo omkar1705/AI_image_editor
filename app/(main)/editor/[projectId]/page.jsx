@@ -29,10 +29,10 @@ export default function EditorPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
-          <p className="text-white/70">Loading...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-black" />
+          <p className="text-black/70">Loading...</p>
         </div>
       </div>
     );
@@ -68,7 +68,7 @@ export default function EditorPage() {
       {/* Mobile Message - Show on screens smaller than lg (1024px) */}
       <div className="lg:hidden min-h-screen bg-slate-900 flex items-center justify-center p-6">
         <div className="text-center max-w-md">
-          <Monitor className="h-16 w-16 text-cyan-400 mx-auto mb-6" />
+          <Monitor className="h-16 w-16 text-white mx-auto mb-6" />
           <h1 className="text-2xl font-bold text-white mb-4">
             Desktop Required
           </h1>
@@ -85,9 +85,9 @@ export default function EditorPage() {
       <div className="hidden lg:block min-h-screen bg-slate-900">
         <div className="flex flex-col h-screen">
           {processingMessage && (
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center">
+            <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center">
               <div className="rounded-lg p-6 flex flex-col items-center gap-4">
-                <RingLoader color="#fff" />
+                <RingLoader color="#ffffff" />
                 <div className="text-center">
                   <p className="text-white font-medium">{processingMessage}</p>
                   <p className="text-white/70 text-sm mt-1">
@@ -107,7 +107,7 @@ export default function EditorPage() {
             <EditorSidebar project={project} />
 
             {/* Canvas Area */}
-            <div className="flex-1 bg-slate-800">
+            <div className="flex-1 bg-slate-9 00">
               <CanvasEditor project={project} activeTool={activeTool} />
             </div>
           </div>
